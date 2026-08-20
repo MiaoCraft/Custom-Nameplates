@@ -19,9 +19,8 @@ jobs:
           distribution: 'zulu'
           java-version: 21
 
-      # 关键修改：使用 shadowJar 任务而非 build
       - name: Build with Gradle
-        run: ./gradlew shadowJar --full-stacktrace
+        run: ./gradlew build
 
       # 添加调试步骤，列出所有 JAR 文件
       - name: List generated JAR files
