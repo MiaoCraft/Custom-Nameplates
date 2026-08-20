@@ -1,0 +1,36 @@
+name: Java CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout latest code
+        uses: actions/checkout@v3
+        
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'zulu'
+          java-version: 21
+
+      # 关键修改：使用 shadowJar 任务而非 build
+      - name: Build with Gradle
+        run: ./gradlew shadowJar --full-stacktrace
+
+      # 添加调试步骤，列出所有 JAR 文件
+      - name: List generated JAR files
+        run: find . -name "*.jar"
+
+      # 上传 Shadow JAR（主构建产物）
+      - name: Upload Custom-Nameplates Shadow JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: Custom-Nameplates
+          path: target/*.jar
+          retention-days: 7
