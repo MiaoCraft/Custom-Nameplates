@@ -32,10 +32,6 @@ subprojects {
     }
 }
 
-fun versionBanner(): String = project.providers.exec {
-    commandLine("git", "rev-parse", "--short=8", "HEAD")
-}.standardOutput.asText.map { it.trim() }.getOrElse("Unknown")
+fun versionBanner(): String = "Unknown"
 
-fun builder(): String = project.providers.exec {
-    commandLine("git", "config", "user.name")
-}.standardOutput.asText.map { it.trim() }.getOrElse("Unknown")
+fun builder(): String = "Unknown"
